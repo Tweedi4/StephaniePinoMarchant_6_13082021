@@ -46,24 +46,24 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 
-// Get specific sauce (id)
+// Get specific Sauce (id)
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id })
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
 };
 
-// Get all sauces in database
+// Get all Sauces in database
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(400).json({ error }));
 };
 
-//Like Or Dislike
+// Like Or Dislike
 exports.likeOrNot = (req, res, next) => {
   if (req.body.like === 1) {
-      Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
+    Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
           .then((sauce) => res.status(200).json({ message: 'Like ajouté !' }))
           .catch(error => res.status(400).json({ error }))
   } else if (req.body.like === -1) {

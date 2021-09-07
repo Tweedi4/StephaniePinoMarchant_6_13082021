@@ -1,4 +1,6 @@
+//bcrpyt permet un cryptage sécurisé
 const bcrypt = require('bcrypt');
+//jwt permet l'échange sécurisé de jetons (tokens)
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
