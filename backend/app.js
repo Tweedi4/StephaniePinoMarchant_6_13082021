@@ -2,6 +2,13 @@ const express = require ('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
+const helmet = require("helmet");
+const xss = require('xss-clean');
+
+const clean = require('xss-clean/lib/xss').clean
+ 
+const cleaned = clean('<script></script>')
+// will return "&lt;script>&lt;/script>"
 const dotenv = require('dotenv').config()
 
 
@@ -23,6 +30,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 const app = express();
+
+
+app.use(helmet());
+app.use(xss())
 
  // Middleware appliqué à toutes les routes, permettant l'envoie de requête et d'accéder à l'API 
 app.use((req, res, next) => {
