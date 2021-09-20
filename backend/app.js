@@ -1,5 +1,5 @@
 const express = require ('express');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // Facilite les interactions avec la db
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require("helmet");
@@ -9,14 +9,16 @@ const clean = require('xss-clean/lib/xss').clean
  
 const cleaned = clean('<script></script>')
 // will return "&lt;script>&lt;/script>"
-const dotenv = require('dotenv').config()
+
+
+const dotenv = require('dotenv').config()  // Charge la variable d'environnement
 
 
 
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
 
-//Connection de l'API au cluster de mongoDB
+// Connection de l'API au cluster de mongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   dbName: process.env.DB_NAME,
   user: process.env.DB_USER,
@@ -29,7 +31,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch((error) => console.error(error));
 
 
-const app = express();
+const app = express(); // Création d'une application express
 
 
 app.use(helmet());
@@ -49,12 +51,11 @@ app.use(bodyParser.json());
 
 
 
-
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/auth', userRoutes);
-app.use('/api/sauces', sauceRoutes);
+app.use('/api/auth', userRoutes); 
+app.use('/api/sauces', sauceRoutes); // Enregistrement du routeur pour toutes les demandes effectuées vers /api/sauces
 
 
 
-module.exports = app;
+module.exports = app; // Donne l'accès depuis les autres fichiers, notamment le serveur Node
